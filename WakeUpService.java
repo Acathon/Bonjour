@@ -14,11 +14,10 @@ import android.support.annotation.Nullable;
 
 public class WakeUpService extends Service {
 
-    NotificationManager notificationManager;
     static Ringtone ringtone;
-    Notification notify;
-
     static MediaPlayer mediaPlayer;
+    NotificationManager notificationManager;
+    Notification notify;
 
     @Nullable
     @Override

@@ -68,8 +68,7 @@ public class SecondActivity extends AppCompatActivity {
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                //alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(),
-                //        2 * 60 * 60, pendingIntent);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (10 * 60 * 1000), pendingIntent);
 
                 finish();
             }

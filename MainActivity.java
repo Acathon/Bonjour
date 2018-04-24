@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.xw.repo.BubbleSeekBar;
 
 import java.util.Calendar;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static AlarmManager alarmManager;
     public static PendingIntent pendingIntent;
-
+    AlarmManager notifReminder;
     Toolbar toolbar;
     BubbleSeekBar hoursBar;
     BubbleSeekBar minutesBar;
@@ -36,16 +38,36 @@ public class MainActivity extends AppCompatActivity {
     Button save;
 
     Calendar calendar;
-
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-6759138947156191/2109471130");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        /* mInterstitialAd.setAdListener(new AdListener() {
+                    public void onAdLoaded() {
+                        if (mInterstitialAd.isLoaded())
+                            mInterstitialAd.show();
+                    }
+            });*/
+
+
         final Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+        final Intent reminder = new Intent(MainActivity.this, BootReceiver.class);
 
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Calendar cagliari;
+        cagliari = Calendar.getInstance();
+        cagliari.set(Calendar.HOUR_OF_DAY, 21);
+        cagliari.set(Calendar.MINUTE, 00);
+        notifReminder = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pendingReminder = PendingIntent.getBroadcast(getApplicationContext(), 100, reminder, PendingIntent.FLAG_UPDATE_CURRENT);
+        notifReminder.setRepeating(AlarmManager.RTC_WAKEUP, cagliari.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingReminder);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -114,10 +136,8 @@ public class MainActivity extends AppCompatActivity {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
-                if (alarmManager != null)
-                    alarmManager.cancel(pendingIntent);
-                finish();
 
+                finish();
             }
         });
 
