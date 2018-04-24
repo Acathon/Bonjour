@@ -147,6 +147,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 calendar.set(Calendar.HOUR_OF_DAY, hoursBar.getProgress());
                 calendar.set(Calendar.MINUTE, minutesBar.getProgress());
+                if (calendar.before(Calendar.getInstance())) {
+                    calendar.add(Calendar.DATE, 1);
+                }
 
                 intent.putExtra(EXTRA_OPEN, "start");
                 pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
