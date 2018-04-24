@@ -14,6 +14,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static lab.standards.bonjour.MainActivity.EXTRA_OPEN;
+
 public class SecondActivity extends AppCompatActivity {
 
     public static final String EXTRA_CLOSE = "lab.standards.bonjour.EXTRA_CLOSE";
@@ -61,9 +63,15 @@ public class SecondActivity extends AppCompatActivity {
         snooze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WakeUpService.ringtone.stop();
-                //WakeUpService.mediaPlayer.stop();
-                //WakeUpService.mediaPlayer.reset();
+                stopService(new Intent(getBaseContext(), WakeUpService.class));
+                intent.putExtra(EXTRA_OPEN, "start");
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                //alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(),
+                //        2 * 60 * 60, pendingIntent);
+
+                finish();
             }
         });
 

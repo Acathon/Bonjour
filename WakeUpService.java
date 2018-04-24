@@ -47,9 +47,7 @@ public class WakeUpService extends Service {
         assert status != null;
         System.out.println("We've got here another state " + status);
         switch (status) {
-            /*case "stop":
-                ringtone.stop();
-                break;*/
+
             case "start":
                 notificationManager.notify(0, notify);
                 Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
@@ -59,27 +57,6 @@ public class WakeUpService extends Service {
             default:
                 break;
         }
-
-        /*if (!this.isWakingUp && startId == 1) {
-            mediaPlayer = mediaPlayer.create(this, R.raw.imagine);
-            mediaPlayer.start();
-
-            //Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            //ringtone = RingtoneManager.getRingtone(getApplicationContext(), uri);
-            //ringtone.play();
-
-            notificationManager.notify(0, notify);
-            this.isWakingUp = true;
-            this.startId = 0;
-        } else if (this.isWakingUp && startId == 1) {
-            this.isWakingUp = true;
-            this.startId = 0;
-        } else {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            this.isWakingUp = false;
-            this.startId = 0;
-        }*/
 
         return START_NOT_STICKY;
     }
